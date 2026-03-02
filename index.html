@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vokabel-Einhorn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- STARTSCREEN -->
+  <div id="startScreen" class="overlay">
+    <div class="modal">
+      <h2>🦄 Vokabel-Einhorn</h2>
+      <p>Gib deinen Namen ein und wähle die Schwierigkeit.</p>
+
+      <label class="field">
+        <span>Name</span>
+        <input id="nameInput" type="text" placeholder="z.B. Mia" maxlength="20" />
+      </label>
+
+      <label class="field">
+        <span>Schwierigkeit</span>
+        <select id="difficultySelect">
+          <option value="leicht">Leicht (12 Sekunden)</option>
+          <option value="mittel" selected>Mittel (10 Sekunden)</option>
+          <option value="schwer">Schwer (7 Sekunden)</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Modus</span>
+        <select id="modeSelect">
+          <option value="de-en" selected>Deutsch → Englisch</option>
+          <option value="en-de">Englisch → Deutsch</option>
+        </select>
+      </label>
+
+      <button id="playBtn" class="primary">Spielen</button>
+
+      <div class="tiny">
+        Tipp: Damit <code>vocab.txt</code> lädt, öffne das Spiel über einen lokalen Webserver (z.B. VS Code “Live Server”).
+      </div>
+    </div>
+  </div>
+
+  <!-- ENDSCREEN -->
+  <div id="endScreen" class="overlay hidden">
+    <div class="modal">
+      <h2 id="endTitle">—</h2>
+      <p id="endText">—</p>
+
+      <div class="endStats">
+        <div><span>Name:</span> <strong id="statName">—</strong></div>
+        <div><span>Punkte:</span> <strong id="statScore">0</strong></div>
+        <div><span>Falsche Wörter:</span> <strong id="statWrong">0</strong></div>
+      </div>
+
+      <div class="endActions">
+        <button id="playAgainBtn" class="primary">Nochmal spielen</button>
+        <button id="trainBtn" class="secondary" disabled>Fehler-Training</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPIEL -->
+  <main class="app">
+    <header class="topbar">
+      <h1>🦄 Vokabel-Einhorn</h1>
+
+      <div class="controls">
+        <button id="restartBtn" class="secondary" disabled>Neu</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="status">
+        <div>Spieler: <strong id="playerName">—</strong></div>
+        <div>Schwierigkeit: <strong id="playerDiff">—</strong></div>
+      </div>
+
+      <div class="status">
+        <div>Punkte: <strong id="score">0</strong> / <strong id="target">10</strong></div>
+        <div>Frage: <strong id="qnum">0</strong></div>
+      </div>
+
+      <div class="prompt">
+        <div class="label">Wähle die richtige Übersetzung:</div>
+        <div id="questionWord" class="word">—</div>
+      </div>
+
+      <div class="answers" id="answers"></div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+    </section>
+
+    <section class="timerCard">
+      <div class="timerTitle">Zeit – Lauf, Einhorn!</div>
+
+      <div class="rainbowTrack" aria-label="Timer">
+        <div class="rainbow"></div>
+        <div id="cloud" class="sprite cloud" title="Gewitterwolke">🌩️</div>
+        <div id="unicorn" class="sprite unicorn" title="Einhorn">🦄</div>
+      </div>
+
+      <div class="timerHint" id="timerHint">
+        Richtige Antwort = Wolke zurücksetzen. Zeit abgelaufen = Game Over.
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>Vokabeln kommen aus <code>vocab.txt</code> (Deutsch<TAB>Englisch).</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

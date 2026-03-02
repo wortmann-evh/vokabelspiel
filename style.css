@@ -1,0 +1,212 @@
+:root{
+  --bg: #0b1020;
+  --card: #121a33;
+  --text: #eef2ff;
+  --muted: #b6c0ff;
+  --good: #29d17c;
+  --bad: #ff4d6d;
+  --shadow: rgba(0,0,0,.35);
+}
+
+*{ box-sizing: border-box; }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 20% 0%, #1c2a6e 0%, var(--bg) 60%);
+  color: var(--text);
+}
+
+/* Overlays */
+.overlay{
+  position: fixed;
+  inset: 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 18px;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  z-index: 20;
+}
+.overlay.hidden{ display:none; }
+
+.modal{
+  width: min(520px, 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.5);
+}
+.modal h2{ margin: 0 0 6px 0; }
+.modal p{ margin: 0 0 12px 0; color: var(--muted); }
+
+.field{
+  display:grid;
+  gap: 6px;
+  margin: 10px 0;
+}
+.field span{ color: var(--muted); }
+
+input, select, button{
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 0.98rem;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+
+button{ cursor:pointer; }
+button.primary{
+  background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.25);
+  font-weight: 800;
+}
+button.secondary{ opacity:.95; }
+button:disabled{ opacity:.45; cursor:not-allowed; }
+
+.tiny{
+  margin-top: 10px;
+  color: rgba(255,255,255,.65);
+  font-size: .9rem;
+}
+code{ color:#fff; }
+
+.endStats{
+  display:grid;
+  gap: 6px;
+  margin: 10px 0;
+  color: var(--muted);
+}
+.endStats strong{ color: var(--text); }
+
+.endActions{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* App */
+.app{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.topbar{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+h1{ margin:0; font-size: 1.4rem; }
+
+.controls{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+
+.card, .timerCard{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 18px 40px var(--shadow);
+}
+
+.status{
+  display:flex;
+  justify-content:space-between;
+  color: var(--muted);
+  margin-bottom: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.prompt .label{
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.word{
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: .4px;
+}
+
+.answers{
+  margin-top: 12px;
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+}
+.answers button{
+  text-align:left;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.08);
+}
+.answers button:hover{ background: rgba(255,255,255,.12); }
+
+.feedback{
+  min-height: 24px;
+  margin-top: 10px;
+  font-weight: 800;
+}
+.feedback.good{ color: var(--good); }
+.feedback.bad{ color: var(--bad); }
+
+.timerTitle{
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.rainbowTrack{
+  position: relative;
+  height: 90px;
+  border-radius: 18px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.20);
+}
+
+.rainbow{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg,
+    #ff4d4d 0%,
+    #ff9f1a 16%,
+    #ffe066 33%,
+    #7ae582 50%,
+    #4dabf7 66%,
+    #845ef7 83%,
+    #ff6bcb 100%);
+  opacity: .7;
+  filter: saturate(1.1);
+}
+
+.sprite{
+  position:absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  user-select:none;
+  text-shadow: 0 8px 14px rgba(0,0,0,.35);
+}
+.cloud, .unicorn{ font-size: 2.1rem; }
+
+.timerHint{
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.footer{
+  color: rgba(255,255,255,.6);
+}

@@ -1,0 +1,10 @@
+Haus	house
+Hund	dog
+Katze	cat
+Schule	school
+Buch	book
+Wasser	water
+Freund	friend
+spielen	play
+lernen	learn
+essen   eat
