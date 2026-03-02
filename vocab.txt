@@ -1,10 +1,91 @@
-Haus	house
-Hund	dog
-Katze	cat
-Schule	school
-Buch	book
-Wasser	water
-Freund	friend
-spielen	play
-lernen	learn
-essen   eat
+
+planner	Handbuch; Kalender
+rule	Regel
+lunch	Mittagessen
+cafeteria	Cafeteria
+money	Geld
+machine	Automat; Maschine; Apparat; Gerät
+to pay (for)	bezahlen
+finger	Finger
+art	Kunst Kunstunterricht
+to buy	kaufen
+sweets (pl)	Süßigkeiten; Bonbons
+shop	Geschäft; Laden
+pen	Füller
+pencil	Bleistift; Buntstift
+pencil case	Federmäppchen; Mäppchen
+exercise book	Übungsheft
+ruler	Lineal
+rubber	Radiergummi
+uniform	Uniform
+recording studio	Aufnahmestudio; Tonstudio
+classroom	Klassenzimmer
+to have got	besitzen; haben
+question	Frage
+an	ein/-e
+to stare	starren; anstarren
+rude	unhöflich; unverschämt
+funny	lustig; witzig
+to sit	sitzen
+to use	benutzen; verwenden; gebrauchen
+lunch break	Mittagspause
+them	sie (Pl.); ihnen
+more	mehr; weitere
+to forget	vergessen
+knife, knives (pl)	Messer
+fork	Gabel
+spoon	Löffel
+to run	rennen; laufen
+a.m.	vormittags (Uhrzeit); morgens (Uhrzeit)
+p.m.	nachmittags (Uhrzeit); abends (Uhrzeit)
+still	noch; immer noch
+dog-tired	hundemüde
+tired	müde
+Time to get up!	Es ist Zeit aufzustehen!
+I’m on my way	…Ich bin auf dem Weg …; Ich bin unterwegs …
+usually	normalerweise; gewöhnlich; meistens
+subject	Betreff (in E-Mails etc.); Thema
+never	nie; niemals
+every	jede/-r/-s
+morning	Morgen; Vormittag
+stepmum	Stiefmutter
+then	dann; danach
+if	wenn; falls; ob
+till	bis
+after that	danach
+on Mondays	montags
+netball	Korball
+other	anders; andere/-r/-s; weitere
+home	nach Hause
+right away	sofort; gleich
+to tidy (a room)	aufräumen; in Ordnung bringen
+in the evenings	abends
+evening	Abend
+afternoon	Nachmittag
+whole	ganz
+greeting	Gruß
+e.g. (= for example)	z.B. (= zum Beispiel)
+bye	tschüss
+abbreviation	Abkürzung
+information (no pl.)	Information; Informationen
+emoji	Emoji
+weekday	Wochentag
+swimming	Schwimmen
+singing	Gesang; Singen
+dancing	Tanz
+to organise	organisieren
+spring break	Frühlingsferien
+song	Song; Lied
+coach	Trainer/-in
+dinner	Abendessen
+dance move	Tanzschritt
+to talk about	sprechen über; erzählen von
+to go to bed	ins Bett gehen
+last	letzte/-r/-s
+She gets on my nerves.	Sie geht mir auf die Nerven.
+granny	Oma; Omi
+to look after	aufpassen auf; hüten; sich kümmern um
+to look	schauen; sehen; aussehen
+to ask	fragen; bitten
+to talk	sprechen; reden
+together	zusammen; miteinander; gemeinsam
