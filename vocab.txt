@@ -1,4 +1,3 @@
-
 planner	Handbuch; Kalender
 rule	Regel
 lunch	Mittagessen
@@ -89,3 +88,85 @@ to look	schauen; sehen; aussehen
 to ask	fragen; bitten
 to talk	sprechen; reden
 together	zusammen; miteinander; gemeinsam
+test	Test; Klassenarbeit; Prüfung
+today	heute
+schoolbag	Schultasche
+tutor	Klassenlehrer/-in
+tutor group	Klasse (in einer englischen Schule)
+Good morning.	Guten Morgen.
+everyone	jeder;alle
+to call	nennen
+him	ihn; ihm
+no	kein/-e
+to sing	singen
+to dance	tanzen
+project	Projekt
+well	tja; nun
+something	etwas
+Wait and see!	Warte ab!
+to look at	anschauen; ansehen
+silly	dumm; doof; albern
+teacher	Lehrer/-in
+office	Büro
+job	Arbeit; Aufgabe; Job
+grandparents (pl)	Großeltern
+talent show	Talentwettbewerb
+to text	eine SMS schicken
+food	Essen; Lebensmittel
+carrot	Karotte; Möhre
+pudding	Pudding; Nachtisch
+restaurant	Restaurant; Gaststätte
+to help	helfen
+pocket money	Taschengeld
+to shout	schreien; rufen
+polite	höflich
+to put away	wegstellen; weglegen
+tray	Tablett
+to be late	zu spät dran sein; zu spät kommen
+to wear	anhaben; tragen (Kleidung)
+to bring	bringen; mitbringen
+building	Gebäude
+homework	Hausaufgabe(n)
+into in;	in … hinein
+alone	allein; ohne fremde Hilfe
+dream	Traum; Traum-
+lesson	Unterrichtsstunde; Schulstunde; Unterricht
+far away	weit weg
+these	diese (hier)
+those	diese dort; jene
+over there	da drüben; dort drüben; nach dort drüben
+to think	finden (= der Meinung sein);denken; nachdenken; glauben
+best	am besten
+because	weil; da
+to play a trick (on)	einen Streich spielen
+week	Woche
+before	vor (zeitlich); bevor
+to work	arbeiten
+group	Gruppe; Klasse
+in pairs	zu zweit; mit einem Partner/einer Partnerin
+audio	Audio-; Hör-
+presentation	Präsentation; Vortrag
+recording	Aufnahme; Aufzeichnung
+poem	Gedicht
+sure	sicher
+voice	Stimme
+next	nächste/-r/-s; der/die Nächste(n)
+jealous	eifersüchtig; neidisch
+already	schon; bereits
+popular	beliebt; populär
+king	König
+Come on!	Komm schon!; Komm jetzt!
+a few	ein paar; wenige; einige
+minute	Minute
+by (bike)	mit (dem Fahrrad)
+to sit down	sich hinsetzen; sich setzen
+to have breakfast	frühstücken
+often	oft; häufig
+to start	anfangen; beginnen; starten
+too	zu
+early	früh
+to practise	üben; trainieren
+saxophone	Saxofon
+sometimes	manchmal
+story, stories (pl)	Story; Geschichte; Erzählung
+at 7:15	um Viertel nach sieben
