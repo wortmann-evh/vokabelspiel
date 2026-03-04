@@ -219,8 +219,9 @@ async function loadVocab(){
     if(parts.length < 2) parts = line.split(",");
 
     if(parts.length >= 2){
-      const de = parts[0].trim();
-      const en = parts[1].trim();
+      // NEU: erst Englisch, dann Deutsch
+      const en = parts[0].trim();
+      const de = parts[1].trim();
       if(de && en) items.push({de, en});
     }
   }
