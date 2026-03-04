@@ -31,8 +31,9 @@
       <label class="field">
         <span>Modus</span>
         <select id="modeSelect">
-          <option value="de-en" selected>Deutsch → Englisch</option>
-          <option value="en-de">Englisch → Deutsch</option>
+            <option value="de-en" selected>Deutsch → Englisch</option>
+            <option value="en-de">Englisch → Deutsch</option>
+            <option value="random">Zufall (Deutsch & Englisch gemischt)</option>
         </select>
       </label>
 
@@ -55,7 +56,8 @@
         <div><span>Punkte:</span> <strong id="statScore">0</strong></div>
         <div><span>Falsche Wörter:</span> <strong id="statWrong">0</strong></div>
       </div>
-
+      <h3>🏆 Beste Ergebnisse (auf diesem Gerät)</h3>
+      <div id="localBoard" class="leaderboard">—</div>
       <div class="endActions">
         <button id="playAgainBtn" class="primary">Nochmal spielen</button>
         <button id="trainBtn" class="secondary" disabled>Fehler-Training</button>

@@ -1,3 +1,15 @@
+// =====================================================
+// Vokabel-Einhorn – Endversion (Baukasten)
+// Features:
+// - Startscreen (Name + Schwierigkeit + Modus)
+// - Modus: de-en / en-de / random
+// - 4 Antwortmöglichkeiten
+// - Timer als Einhorn + Gewitterwolke auf Regenbogen
+// - Gewonnen-Screen (nach 10 richtigen Antworten)
+// - Fehler-Training (falsche Wörter wiederholen)
+// - Local Highscore (auch bei Game Over) via localStorage
+// =====================================================
+
 // =====================
 // Konfiguration
 // =====================
@@ -10,26 +22,30 @@ const DIFFICULTY_TIME = {
   schwer: 7_000,
 };
 
+// Local Highscore
+const LOCAL_HS_KEY = "vokabelspiel_highscores_v1";
+const LOCAL_HS_LIMIT = 10;
+
 // =====================
 // State
 // =====================
-let vocab = [];             // {de,en}[]
-let mode = "de-en";         // de-en | en-de
+let vocab = [];               // {de,en}[]
+let mode = "de-en";           // de-en | en-de | random
 let difficulty = "mittel";
 let questionTimeMs = DIFFICULTY_TIME[difficulty];
 
 let playerName = "Spieler:in";
 
 let playing = false;
-let trainingMode = false;  // false = normales Spiel, true = Fehler-Training
+let trainingMode = false;     // false = normales Spiel, true = Fehler-Training
 
 let score = 0;
 let qnum = 0;
 
-let wrongSet = new Set();  // Set von keys "de||en" (falsch beantwortet ODER Zeit abgelaufen)
-let trainingQueue = [];    // Array von vocab-Einträgen, die trainiert werden sollen
+let wrongSet = new Set();     // keys "de||en" (falsch ODER Zeit abgelaufen)
+let trainingQueue = [];       // Array der Einträge, die trainiert werden sollen
 
-let current = null;        // {entry, prompt, correct, options[]}
+let current = null;           // {entry, prompt, correct, options[], direction}
 let roundStart = 0;
 let rafId = null;
 
@@ -70,6 +86,9 @@ const statWrongEl = document.getElementById("statWrong");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const trainBtn = document.getElementById("trainBtn");
 
+// optionales Element für Local Highscore (wenn du es in index.html ergänzt hast)
+const localBoardEl = document.getElementById("localBoard");
+
 // =====================
 // Helpers
 // =====================
@@ -82,6 +101,7 @@ function shuffle(arr){
   }
   return arr;
 }
+
 function clamp01(x){ return Math.max(0, Math.min(1, x)); }
 
 function setFeedback(text, kind){
@@ -99,8 +119,11 @@ function updateHud(){
   qnumEl.textContent = String(qnum);
 
   timerHintEl.textContent = trainingMode
-    ? "Fehler-Training: Du übst nur die falschen Wörter. Richtige Antwort entfernt das Wort aus der Liste."
+    ? "Fehler-Training: Du übst nur die falschen Wörter. Richtig beantwortet = Wort verschwindet aus der Liste."
     : "Richtige Antwort = Wolke zurücksetzen. Zeit abgelaufen = Game Over.";
+
+  // Leaderboard im Endscreen bei Bedarf vorab laden
+  renderLocalBoard(loadLocalHighscores());
 }
 
 function lockAnswers(){
@@ -111,6 +134,69 @@ function pickRandomDifferent(pool, exclude, count){
   const filtered = pool.filter(x => x !== exclude);
   shuffle(filtered);
   return filtered.slice(0, count);
+}
+
+function sanitizeName(name){
+  // einfache, kinderfreundliche Säuberung
+  return (name || "Spieler:in")
+    .trim()
+    .slice(0, 20)
+    .replace(/[^\p{L}\p{N} _-]/gu, "");
+}
+
+// =====================
+// Local Highscore
+// =====================
+function loadLocalHighscores(){
+  try{
+    return JSON.parse(localStorage.getItem(LOCAL_HS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalHighscores(rows){
+  localStorage.setItem(LOCAL_HS_KEY, JSON.stringify(rows));
+}
+
+function addLocalHighscore({name, score, mode, difficulty, won, wrongCount}){
+  const rows = loadLocalHighscores();
+  rows.push({
+    name: sanitizeName(name),
+    score: Math.max(0, Math.min(999, score|0)),
+    mode: String(mode),
+    difficulty: String(difficulty),
+    won: !!won,
+    wrongCount: Math.max(0, wrongCount|0),
+    date: new Date().toISOString()
+  });
+
+  // Sort: Score desc, dann Datum neu zuerst
+  rows.sort((a,b) => (b.score - a.score) || (b.date.localeCompare(a.date)));
+
+  const top = rows.slice(0, LOCAL_HS_LIMIT);
+  saveLocalHighscores(top);
+  return top;
+}
+
+function renderLocalBoard(rows){
+  if(!localBoardEl) return; // falls du es nicht eingebaut hast
+
+  if(!rows || !rows.length){
+    localBoardEl.textContent = "Noch keine Einträge.";
+    return;
+  }
+
+  const ol = document.createElement("ol");
+  rows.forEach(r => {
+    const li = document.createElement("li");
+    const badge = r.won ? "🏆" : "🌩️";
+    li.textContent = `${badge} ${r.name} — ${r.score} (${r.mode}, ${r.difficulty})`;
+    ol.appendChild(li);
+  });
+
+  localBoardEl.innerHTML = "";
+  localBoardEl.appendChild(ol);
 }
 
 // =====================
@@ -150,7 +236,6 @@ async function loadVocab(){
 // =====================
 function pickEntry(){
   if(trainingMode){
-    // trainiere die Queue, zyklisch
     if(trainingQueue.length === 0) return null;
     return trainingQueue[0];
   }
@@ -161,14 +246,20 @@ function buildQuestion(){
   const entry = pickEntry();
   if(!entry) return null;
 
-  const prompt = (mode === "de-en") ? entry.de : entry.en;
-  const correct = (mode === "de-en") ? entry.en : entry.de;
+  // Richtung bestimmen: de-en / en-de / random
+  let direction = mode;
+  if(mode === "random"){
+    direction = Math.random() < 0.5 ? "de-en" : "en-de";
+  }
 
-  const allAnswers = vocab.map(v => (mode === "de-en") ? v.en : v.de);
+  const prompt  = (direction === "de-en") ? entry.de : entry.en;
+  const correct = (direction === "de-en") ? entry.en : entry.de;
+
+  const allAnswers = vocab.map(v => (direction === "de-en") ? v.en : v.de);
   const distractors = pickRandomDifferent(allAnswers, correct, OPTIONS_COUNT - 1);
   const options = shuffle([correct, ...distractors]);
 
-  return { entry, prompt, correct, options };
+  return { entry, prompt, correct, options, direction };
 }
 
 function renderQuestion(q){
@@ -260,7 +351,6 @@ function removeFromTrainingIfCorrect(entry){
   const k = keyOf(entry);
   if(wrongSet.has(k)) wrongSet.delete(k);
 
-  // Entferne aus Queue (aktuelles Element) wenn richtig
   if(trainingQueue.length && keyOf(trainingQueue[0]) === k){
     trainingQueue.shift();
   }
@@ -281,7 +371,7 @@ function onAnswer(selected){
       setTimeout(() => { if(playing) nextRound(); }, 350);
     } else {
       setFeedback(`Leider falsch. Richtig wäre: ${current.correct}`, "bad");
-      // im Training bleibt das Wort drin, wir schieben es ans Ende
+      // Wort bleibt – ans Ende schieben
       if(trainingQueue.length){
         trainingQueue.push(trainingQueue.shift());
       }
@@ -340,6 +430,9 @@ function showEnd({ title, text }){
   // Fehler-Training nur wenn es Fehler gibt
   trainBtn.disabled = wrongSet.size === 0;
 
+  // Local Board anzeigen (falls eingebaut)
+  renderLocalBoard(loadLocalHighscores());
+
   endScreen.classList.remove("hidden");
   restartBtn.disabled = false;
 }
@@ -380,6 +473,17 @@ function endGame(won, message){
   stopTimer();
   lockAnswers();
 
+  // Highscore: auch bei Game Over speichern
+  const top = addLocalHighscore({
+    name: playerName,
+    score,
+    mode,
+    difficulty,
+    won,
+    wrongCount: wrongSet.size
+  });
+  renderLocalBoard(top);
+
   showEnd({
     title: won ? "Gewonnen! 🎉" : "Game Over 🌩️",
     text: message,
@@ -387,20 +491,18 @@ function endGame(won, message){
 }
 
 async function beginFromStartScreen(){
-  // Einstellungen übernehmen
-  playerName = (nameInput.value || "").trim() || "Spieler:in";
+  playerName = sanitizeName(nameInput.value) || "Spieler:in";
   difficulty = difficultySelect.value;
   mode = modeSelect.value;
   questionTimeMs = DIFFICULTY_TIME[difficulty] ?? 10_000;
 
-  // Laden falls nötig
   try{
     if(vocab.length === 0) await loadVocab();
   } catch(err){
     alert(
       "Fehler beim Laden der Vokabeln.\n\n" +
       String(err.message || err) +
-      "\n\nTipp: Öffne das Spiel über einen lokalen Webserver (VS Code Live Server)."
+      "\n\nTipp: Öffne das Spiel über einen lokalen Webserver (VS Code Live Server) oder GitHub Pages."
     );
     return;
   }
@@ -417,7 +519,6 @@ async function beginFromStartScreen(){
 playBtn.addEventListener("click", beginFromStartScreen);
 
 restartBtn.addEventListener("click", () => {
-  // zurück zum Startscreen
   playing = false;
   stopTimer();
   wrongSet.clear();
